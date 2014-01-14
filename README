@@ -14,6 +14,7 @@ Files included
 1. Server : zmq_server.go
 2. Client : zmq_client.go
 3. Server_Test : zmq_server_test.go
+4. DataStore: dataStore.go
 
 I tried to write the automated server test file but because of the package dependency problem it is not working. But I have kept in ./extra directory  
 
@@ -21,10 +22,9 @@ I tried to write the automated server test file but because of the package depen
 How to run 
 1. go get github.com/abhishekg16/kvstore
 2. go install github.com/abhishekg16/kvstore/client
-3. go build github.com/abhishekg16/kvstore/server
+3. go install github.com/abhishekg16/kvstore/server
 4.Not the binary would have been installed in $GOPBIN/bin path. 
-go to $GOBIN/bin
-
+go to $GOBIN/bin and run following command in different terminal
 5 ./server
 6 ./client
 
