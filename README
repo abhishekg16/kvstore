@@ -1,1 +1,47 @@
-This is ReadMe file
+This the keyValue server README file
+
+Assuing that $GOROOT, $GOPATH and $GOBIN variables are set
+
+External dependency:
+1. This implementation uses the zeromq. 
+2. First install ZeroMQ 3.x.. This is available at http://zeromq.org/area:download . Please intall Stable Release 3.2.4.
+3. Then install go lang binding extention using
+	 go get -tags zmq_3_x github.com/alecthomas/gozmq
+
+
+
+Files included
+1. Server : zmq_server.go
+2. Client : zmq_client.go
+2. Server_Test : zmq_test.go
+
+
+How to run 
+1. go get github.com/abhishekg16/kvstore
+2. go install github.com/abhishekg16/kvstore/client
+3. go build github.com/abhishekg16/kvstore/server
+4.Not the binary would have been installed in $GOPBIN/bin path. 
+go to $GOBIN/bin
+5 ./server
+6 ./client
+
+You can see the in logs gererated on the console that the client server interations. Which should the different test cases.
+
+
+Specification
+1. The sever supports multiple clients.
+2. Each client is give a unique ID and a unique directory on server.
+3. Each client can have the multiple tables which stores the key-values pairs
+4. Server provide following functionality
+	1. Create a new user : create a new directory for new user
+	2. Create A table (userId, tableName) :  create a new table for a particular user
+	3. Get (userId, tableName, key) : returns the value associated with key
+	4. Put (userId,tableName, key, value ) : insert a value corrosponding to a particular key in a particular table
+`	5. deleteKey(userId, table , key) : delete a key-value pair
+	
+	These feature are implemented by not tested because of lack of time, but the code for these features is present in submission
+	5. getTableList(userId) : For a particular user id return the list for all tables owned by the user.
+
+
+
+
