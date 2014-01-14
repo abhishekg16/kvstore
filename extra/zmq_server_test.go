@@ -1,4 +1,7 @@
-package main
+package kvstore
+
+import "testing"
+
 
 import "fmt"
 import zmq "github.com/alecthomas/gozmq"
@@ -41,9 +44,8 @@ func Reset(req *request) {
 
 func logReply(rep reply) {
 	log.Println("logging Reply")
-	log.Printf("Result: %s  ",rep.Result)
-	log.Printf("Uid: %d ",rep.Uid)
-	fmt.Println()
+	log.Println(rep.Result)
+	log.Println(rep.Uid)
 	if rep.Err != nil {
 		log.Println(rep.Err)
 	}
@@ -51,14 +53,12 @@ func logReply(rep reply) {
 
 var UserId int
 
-func main() {
 	 
+func Test(t *testing.T) {
 
 	context, _ := zmq.NewContext()
 	 socket, _ := context.NewSocket(zmq.REQ)
 	 socket.Connect("tcp://127.0.0.1:8080")
-
-	for i :=0 ; i < 10 ; i++ {
 	 var req request
 	 var rep reply
 	 UserId = 0
@@ -75,6 +75,9 @@ func main() {
                     fmt.Println("error:", err)
          }
          logReply(rep)
+	 if rep.Uid == 0  { 
+		 t.Errorf("user id is = %d, it must be not zero", rep.Uid)
+	 }
          UserId = rep.Uid
 	 fmt.Printf("Got User Id: %d",UserId)
 	 fmt.Println();	
@@ -105,6 +108,10 @@ func main() {
                     fmt.Println("error:", err)
          }
          logReply(rep)
+	 if rep.Err != nil  { 
+		 t.Errorf("Error in inserting key value %s, rep.Err)
+	 }
+		
 	 checkError(err)
 	
 	// get a Key-Value Pair
@@ -119,13 +126,13 @@ func main() {
          if err != nil {
                     fmt.Println("error:", err)
          }
-         log.Printf("The fetched value %s",rep.Result)
-         log.Println()
          logReply(rep)
-	 
+	 if rep.result != "value2"  { 
+		 t.Errorf("The value corrosponding to key1 should be value1")
+	 }
+
 	 checkError(err)
 	
-	}
 }
 
 func checkError(err error ) {
